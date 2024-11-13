@@ -136,7 +136,7 @@ const generatedPasswords = ref([]);
 const passwordsGenerated = ref(false)
 
 function getColor(char) {
-  if (/[a-z]/.test(char)) return 'yellow';
+  if (/[a-z]/.test(char)) return 'primary';
   if (/[A-Z]/.test(char)) return 'green';
   if (/[0-9]/.test(char)) return 'blue';
   if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(char)) return 'pink';
