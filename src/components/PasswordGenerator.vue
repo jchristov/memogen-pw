@@ -136,7 +136,7 @@ const generatedPasswords = ref([]);
 const passwordsGenerated = ref(false)
 
 function getColor(char) {
-  if (/[a-z]/.test(char)) return 'primary';
+  if (/[a-z]/.test(char)) return 'default';
   if (/[A-Z]/.test(char)) return 'green';
   if (/[0-9]/.test(char)) return 'blue';
   if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(char)) return 'pink';
@@ -148,7 +148,7 @@ function getColorClass(char) {
 }
 
 function generatePassword() {
-  const wordCount = 5;
+  const wordCount = passwordSettings.words;
   let words = [];
   for (let i = 0; i < wordCount; i++) {
     const wordIndex = Math.floor(Math.random() * dictionary.length);
