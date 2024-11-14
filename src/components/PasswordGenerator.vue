@@ -5,7 +5,7 @@
         <div class="d-flex ga-4">
           <span><v-img src="@/assets/logo.png" width="64" height="64" /></span>
           <div>
-            <div class="text-h5 text-sm-h4"> <span class="text-primary">Memogen.pw</span> Secure Password Generator
+            <div class="text-h5 text-sm-h4"> <span class="text-primary">Pwdify</span> Secure Password Generator
             </div>
             <div class="text-subtitle-2 text-sm-subtitle-1"> Generate strong, unique and memorable passwords </div>
           </div>

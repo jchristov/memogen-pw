@@ -8,6 +8,6 @@
 
 <style>
 body {
-    font-size: 3.2vw;
+  font-size: 3.2vw;
 }
 </style>
