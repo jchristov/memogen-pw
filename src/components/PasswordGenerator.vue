@@ -2,7 +2,7 @@
   <v-container>
     <v-row align="center" class="mt-4 mt-sm-8">
       <v-col align="center">
-        <div class="d-flex ga-4">
+        <div class="d-inline-flex ga-4">
           <span><v-img src="@/assets/logo.png" width="64" height="64" /></span>
           <div>
             <div class="text-h5 text-sm-h4"> <span class="text-primary">Pwdify</span> Secure Password Generator
@@ -41,40 +41,43 @@
       <v-col cols="auto" v-if="passwordSettings.typeIndex === 0">
         <div class="d-flex align-center">
           <div class="text-h6 mr-4">Words</div>
-          <v-number-input v-model="passwordSettings.wordsCount" control-variant="split" :min="1"
-            :max="passwordSettings.maxWordsCount" density="compact" variant="outlined" max-width="150" hide-details
-            @update:modelValue="generate()" />
+          <v-number-input v-model="passwordSettings.wordsCount" control-variant="split"
+            :min="passwordSettings.minWordsCount" :max="passwordSettings.maxWordsCount" density="compact"
+            variant="outlined" max-width="150" hide-details @update:modelValue="generate()" />
         </div>
       </v-col>
       <v-col cols="auto" v-else>
         <div class="d-flex align-center">
           <div class="text-h6 mr-4">Characters</div>
-          <v-number-input v-model="passwordSettings.passwordLength" control-variant="split" :min="1"
-            :max="passwordSettings.maxPasswordLength" density="compact" variant="outlined" max-width="150" hide-details
-            @update:modelValue="generate()" />
-        </div>
-      </v-col>
-      <v-col cols="auto" v-if="passwordSettings.typeIndex === 0">
-        <div class="d-flex align-center">
-          <div class="text-h6 mr-4">Separator</div>
-          <v-btn-toggle v-model="passwordSettings.separatorIndex" density="compact" variant="outlined" divided>
-            <v-btn v-for="(separator, sIdx) in separators" :key="sIdx" :text="separator.title" />
-          </v-btn-toggle>
+          <v-number-input v-model="passwordSettings.passwordLength" control-variant="split"
+            :min="passwordSettings.minPasswordLength" :max="passwordSettings.maxPasswordLength" density="compact"
+            variant="outlined" max-width="150" hide-details @update:modelValue="generate()" />
         </div>
       </v-col>
       <v-col cols="auto">
         <div class="d-flex align-center">
           <div class="text-h6 mr-4">Include</div>
           <v-btn-toggle v-model="passwordSettings.includesIndex" multiple density="compact" variant="outlined" divided>
-            <v-btn @click="passwordSettings.includeUppercase = !passwordSettings.includeUppercase">
+            <v-btn size="small"
+              @click="passwordSettings.includeUppercase = !passwordSettings.includeUppercase; if (passwordSettings.typeIndex === 1) generate()">
               <span class="font-weight-black" :class="getColorClass('A')">A-Z</span>
             </v-btn>
-            <v-btn @click="passwordSettings.includeNumbers = !passwordSettings.includeNumbers">
+            <v-btn size="small"
+              @click="passwordSettings.includeNumbers = !passwordSettings.includeNumbers; if (passwordSettings.typeIndex === 1) generate()">
               <span class="font-weight-black" :class="getColorClass('1')">0-9</span>
             </v-btn>
-            <v-btn @click="passwordSettings.includeSymbols = !passwordSettings.includeSymbols">
+            <v-btn size="small"
+              @click="passwordSettings.includeSymbols = !passwordSettings.includeSymbols; if (passwordSettings.typeIndex === 1) generate()">
               <span class="font-weight-black" :class="getColorClass('.')">./-</span>
             </v-btn>
+          </v-btn-toggle>
+        </div>
+      </v-col>
+      <v-col cols="auto" v-if="passwordSettings.typeIndex === 0">
+        <div class="d-flex align-center">
+          <div class="text-h6 mr-4">Separator</div>
+          <v-btn-toggle v-model="passwordSettings.separatorIndex" density="compact" variant="outlined" divided>
+            <v-btn v-for="(separator, sIdx) in separators" :key="sIdx" :text="separator.title" size="small" />
           </v-btn-toggle>
         </div>
       </v-col>
@@ -125,8 +128,10 @@ const password = computed(() => passwordSettings.typeIndex === 0 ? passphrase.va
 const passwordSettings = reactive({
   typeIndex: 0,
   wordsCount: 3,
+  minWordsCount: 1,
   maxWordsCount: 10,
   passwordLength: 16,
+  minPasswordLength: 8,
   maxPasswordLength: 32,
   separatorIndex: 1,
   includesIndex: [0],
