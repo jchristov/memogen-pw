@@ -21,7 +21,7 @@ const securityLevel = computed(() => levels[strengthCheck.value.score]) // Get s
         <div class="text-h6 font-weight-bold">{{ securityLevel }}</div>
       </v-col>
       <v-col class="flex-column text-caption">
-        <div><b>Guesses:</b> {{ strengthCheck.guesses }}</div>
+        <div><b>Guesses:</b> {{ strengthCheck.guesses.toExponential(0) }}</div>
         <div><b>Crack time:</b> {{ strengthCheck.crackTimesDisplay.offlineSlowHashing1e4PerSecond }}</div>
         <div v-if="strengthCheck.feedback.warning"><b>Warning:</b> {{ strengthCheck.feedback.warning }}</div>
         <div v-if="strengthCheck.feedback.suggestions.length"><b>Suggestions:</b>

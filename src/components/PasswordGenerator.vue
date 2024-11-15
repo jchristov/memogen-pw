@@ -24,7 +24,7 @@
         </v-btn-toggle>
       </v-col>
       <v-col cols="auto" v-if="passwordSettings.typeIndex === 0">
-        <v-select v-model="dictionaryId" :items="dictionaryList" density="compact" variant="outlined"
+        <v-select v-model="dictionaryId" :items="dictionaryList" density="compact" variant="outlined" hide-details
           @update:model-value="useDictionary"></v-select>
       </v-col>
     </v-row>
@@ -35,7 +35,6 @@
         <v-btn block color="primary" size="large" prepend-icon="mdi-autorenew" class="mt-4" @click="generate()">Generate
           New {{ type }}</v-btn>
       </v-col>
-
       <v-col cols="12" md="4" lg="3" v-if="password">
         <SecurityIndicator :value="password" />
       </v-col>
