@@ -39,6 +39,10 @@
               <div class="text-h6 mt-4">Cookies</div>
               <p>We do not use cookies or any other tracking technologies in this app.</p>
 
+              <div class="text-h6 mt-4">Licensing</div>
+              <p>This app is available on GitHub under the MIT License. You are free to use, modify, and distribute the
+                app in accordance with the terms of the MIT License.</p>
+
               <div align="end" class="mt-4">
                 <v-btn variant="text" text="Close" @click="isActive.value = false" />
               </div>
