@@ -1,4 +1,4 @@
-export const words = [
+export const dictionary = [
   "aardvark",
   "abandoned",
   "abbreviate",
@@ -1297,4 +1297,4 @@ export const words = [
   "zucchini"
 ]
 
-export default words
+export default dictionary

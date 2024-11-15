@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row align="center" class="mt-4 mt-sm-8">
-      <v-col align="center">
+      <v-col>
         <div class="d-inline-flex ga-4">
           <span><v-img src="@/assets/logo.png" width="64" height="64" /></span>
           <div>
@@ -10,6 +10,9 @@
             <div class="text-subtitle-2 text-sm-subtitle-1"> Generate strong, unique and memorable passwords </div>
           </div>
         </div>
+      </v-col>
+      <v-col cols="auto">
+        <ThemeSwitcher />
       </v-col>
     </v-row>
 
@@ -20,8 +23,9 @@
           <v-btn v-for="type in types" :key="type" :text="type" />
         </v-btn-toggle>
       </v-col>
-      <v-col align="end">
-        <ThemeSwitcher />
+      <v-col cols="auto">
+        <v-select v-model="dictionaryId" :items="dictionaries" density="compact" variant="outlined"
+          @update:model-value="importDictionary"></v-select>
       </v-col>
     </v-row>
 
@@ -88,14 +92,25 @@
 <script setup>
 import { computed, reactive, ref } from 'vue';
 import { VNumberInput } from 'vuetify/labs/VNumberInput';
-import dictionary from './dictionary';
 import PasswordView from './PasswordView.vue';
 import SecurityIndicator from './SecurityIndicator.vue';
 import ThemeSwitcher from './ThemeSwitcher.vue';
 
-
 const types = ['Passphrase', 'Password']
 const type = computed(() => types[passwordSettings.typeIndex])
+
+const dictionaries = [
+  { title: 'EFF Shortlist', value: 'eff' },
+  { title: 'English', value: 'en' },
+  { title: 'German', value: 'de' },
+  { title: 'French', value: 'fr' },
+  { title: 'Spanish', value: 'es' },
+  { title: 'Czech', value: 'cz' },
+  { title: 'Lord of the Rings', value: 'lotr' },
+  { title: 'Harry Potter', value: 'potter' },
+]
+const dictionaryId = ref('eff')
+let dictionary = []
 
 const separators = [{ title: '˽', value: ' ' }, { title: '-', value: '-' }, { title: '_', value: '_' }, { title: '.', value: '.' }, { title: ',', value: ',' }, { title: '!', value: '!' }, { title: '?', value: '?' }, { title: '#', value: '#' }]
 const separator = computed(() => passwordSettings.separatorIndex != null ? separators[passwordSettings.separatorIndex].value : '')
@@ -160,7 +175,6 @@ function generatePassphraseWords() {
     words.push(word);
   }
   passphraseWords.value = words
-  // console.log('Passphrase:', words);
   return words;
 }
 
@@ -176,13 +190,20 @@ function generatePassword() {
     password.push(characters[charIndex]);
   }
   passwordValue.value = password;
-  // console.log('Password:', password);
   return password;
 }
 
 function generate() {
   type.value === 'Passphrase' ? generatePassphraseWords() : generatePassword();
 }
+// generate();
 
-generate();
+async function importDictionary() {
+  const lang = dictionaryId.value;
+  const module = await import('./dictionaries/' + lang);
+  dictionary = module.dictionary;
+  generate();
+}
+
+importDictionary();
 </script>
