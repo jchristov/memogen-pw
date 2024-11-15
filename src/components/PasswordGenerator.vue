@@ -23,9 +23,9 @@
           <v-btn v-for="type in types" :key="type" :text="type" />
         </v-btn-toggle>
       </v-col>
-      <v-col cols="auto">
-        <v-select v-model="dictionaryId" :items="dictionaries" density="compact" variant="outlined"
-          @update:model-value="importDictionary"></v-select>
+      <v-col cols="auto" v-if="passwordSettings.typeIndex === 0">
+        <v-select v-model="dictionaryId" :items="dictionaryList" density="compact" variant="outlined"
+          @update:model-value="useDictionary"></v-select>
       </v-col>
     </v-row>
 
@@ -95,17 +95,18 @@ import { VNumberInput } from 'vuetify/labs/VNumberInput';
 import PasswordView from './PasswordView.vue';
 import SecurityIndicator from './SecurityIndicator.vue';
 import ThemeSwitcher from './ThemeSwitcher.vue';
+import dictionaries from './dictionaries';
 
 const types = ['Passphrase', 'Password']
 const type = computed(() => types[passwordSettings.typeIndex])
 
-const dictionaries = [
+const dictionaryList = [
   { title: 'EFF Shortlist', value: 'eff' },
   { title: 'English', value: 'en' },
   { title: 'German', value: 'de' },
-  { title: 'French', value: 'fr' },
-  { title: 'Spanish', value: 'es' },
-  { title: 'Czech', value: 'cz' },
+  // { title: 'French', value: 'fr' },
+  // { title: 'Spanish', value: 'es' },
+  // { title: 'Czech', value: 'cz' },
   { title: 'Lord of the Rings', value: 'lotr' },
   { title: 'Harry Potter', value: 'potter' },
 ]
@@ -196,14 +197,12 @@ function generatePassword() {
 function generate() {
   type.value === 'Passphrase' ? generatePassphraseWords() : generatePassword();
 }
-// generate();
 
-async function importDictionary() {
+async function useDictionary() {
   const lang = dictionaryId.value;
-  const module = await import('./dictionaries/' + lang);
-  dictionary = module.dictionary;
+  dictionary = dictionaries[lang];
   generate();
 }
 
-importDictionary();
+useDictionary();
 </script>
